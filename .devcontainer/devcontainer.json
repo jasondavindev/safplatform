@@ -6,7 +6,9 @@
   },
   "workspaceFolder": "/workspaces/safplatform",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/safplatform,type=bind,consistency=cached",
-  "remoteUser": "vscode",
+  "containerUser": "root",
+  "remoteUser": "root",
+  "updateRemoteUserUID": false,
   "containerEnv": {
     "GOPATH": "/go",
     "GOROOT": "/usr/local/go",
@@ -18,7 +20,7 @@
   },
   "mounts": [
     "source=safplatform-gomodcache,target=/go/pkg/mod,type=volume",
-    "source=safplatform-gobuildcache,target=/home/vscode/.cache/go-build,type=volume"
+    "source=safplatform-gobuildcache,target=/root/.cache/go-build,type=volume"
   ],
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
