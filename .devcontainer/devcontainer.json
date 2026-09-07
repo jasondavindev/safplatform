@@ -1,0 +1,57 @@
+{
+  "name": "safplatform (Go 1.27)",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "workspaceFolder": "/workspaces/safplatform",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/safplatform,type=bind,consistency=cached",
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "GOPATH": "/go",
+    "GOROOT": "/usr/local/go",
+    "GOFLAGS": "-buildvcs=false",
+    "CGO_ENABLED": "0"
+  },
+  "remoteEnv": {
+    "PATH": "/usr/local/go/bin:/go/bin:${containerEnv:PATH}"
+  },
+  "mounts": [
+    "source=safplatform-gomodcache,target=/go/pkg/mod,type=volume",
+    "source=safplatform-gobuildcache,target=/home/vscode/.cache/go-build,type=volume"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go"
+      ],
+      "settings": {
+        "go.goroot": "/usr/local/go",
+        "go.gopath": "/go",
+        "go.toolsGopath": "/go",
+        "go.alternateTools": {
+          "go": "/usr/local/go/bin/go"
+        },
+        "go.toolsManagement.autoUpdate": false,
+        "go.useLanguageServer": true,
+        "go.lintTool": "staticcheck",
+        "go.formatTool": "goimports",
+        "gopls": {
+          "ui.semanticTokens": true
+        },
+        "[go]": {
+          "editor.defaultFormatter": "golang.go",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh"
+}
