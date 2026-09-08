@@ -67,3 +67,13 @@ Improvement points:
 
 - Instead of committing to this repository, the deploy job should commit to [jasondavindev/open-idp](https://github.com/jasondavindev/open-idp) — the central catalog of all apps installed in the cluster.
 - Replace the shell scripts with reusable workflows that already contain them.
+
+## Screenshots
+
+ArgoCD syncing the tag committed by the deploy job and rolling out the new ReplicaSet:
+
+![ArgoCD application synced and rolling out](docs/images/argocd.png)
+
+Request to the app running in the cluster, behind Traefik:
+
+![curl request to the app returning the echoed JSON](docs/images/app.png)
