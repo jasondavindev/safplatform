@@ -1,0 +1,8 @@
+.git
+.gitignore
+.devcontainer
+Dockerfile
+.dockerignore
+*_test.go
+.echo-bin
+README.md

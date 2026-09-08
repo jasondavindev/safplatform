@@ -1,0 +1,57 @@
+name: cicd
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: golang:1.27
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+
+      - name: test
+        shell: bash
+        run: scripts/test.sh
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      full_image_name: ${{ steps.build.outputs.full_image_name }}
+      image_tag: ${{ steps.build.outputs.image_tag }}
+    env:
+      CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
+      REPO_USER: ${{ secrets.REPO_USER }}
+      REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+
+      - name: build
+        id: build
+        shell: bash
+        run: scripts/ci.sh
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: cd
+        shell: bash
+        run: scripts/cd.sh
