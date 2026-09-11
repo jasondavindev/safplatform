@@ -6,3 +6,5 @@ Dockerfile
 *_test.go
 .echo-bin
 README.md
+.idp
+.github

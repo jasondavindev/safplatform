@@ -16,7 +16,7 @@ if [[ -z "${image_tag}" ]]; then
 fi
 
 IMAGE_TAG_VALUE="${image_tag}" yq -i \
-    '.image.tag = strenv(IMAGE_TAG_VALUE) | .image.tag style="double"' \
+    '.global.image.tag = strenv(IMAGE_TAG_VALUE) | .image.tag style="double"' \
     "${values_file}"
 
 if git diff --quiet -- "${values_file}"; then
@@ -25,7 +25,7 @@ if git diff --quiet -- "${values_file}"; then
 fi
 
 git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+git config user.email "github-actions[bot]@users.noreply.github.com"
 
 git add "${values_file}"
 git commit -m "chore(cd): bump ${app_name} image tag to ${image_tag} [skip ci]"
