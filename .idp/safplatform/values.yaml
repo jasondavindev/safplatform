@@ -1,12 +1,12 @@
 global:
   image:
     repository: jasoncarneiro/safplatform
-    tag: "edd315164023eeef282ee1b14fcb23283ff371fa"
-
+    tag: "e80fb8b62092d192c8204a05f2f06f9e3e71d0d8"
 web:
   route:
     host: k8s.com
     pathPrefix: /safplatform
-
   port: 8080
   pdb: {}
+image:
+  tag: "null"
