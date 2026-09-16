@@ -1,8 +1,6 @@
 name: cicd
 on:
   push:
-    branches:
-      - main
 
 jobs:
   test:
@@ -19,39 +17,18 @@ jobs:
         run: scripts/test.sh
 
   build:
+    if: github.ref_name == 'main'
+    uses: jasondavindev/open-idp/.github/workflows/build.yaml@main
     needs: test
-    runs-on: ubuntu-latest
-    outputs:
-      full_image_name: ${{ steps.build.outputs.full_image_name }}
-      image_tag: ${{ steps.build.outputs.image_tag }}
-    env:
+    secrets:
       CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
-      REPO_USER: ${{ secrets.REPO_USER }}
-      REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          ref: ${{ github.sha }}
-
-      - name: build
-        id: build
-        shell: bash
-        run: scripts/ci.sh
+      REGISTRY_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+      REGISTRY_USER: ${{ secrets.REPO_USER }}
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    uses: jasondavindev/open-idp/.github/workflows/deploy.yaml@main
+    with:
+      image_tag: ${{ needs.build.outputs.image_tag }}
     permissions:
       contents: write
-    env:
-      IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          ref: ${{ github.ref_name }}
-
-      - name: cd
-        shell: bash
-        run: scripts/cd.sh
