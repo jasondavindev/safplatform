@@ -1,7 +1,7 @@
 global:
   image:
     repository: jasoncarneiro/safplatform
-    tag: "4db12968ba7754b89a7a7dacfb0904844b50415a"
+    tag: "48247e9cc213aeaa67adb920157ce3f3791d1f11"
 web:
   route:
     host: k8s.com

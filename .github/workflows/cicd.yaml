@@ -18,7 +18,7 @@ jobs:
 
   build:
     if: github.ref_name == 'main'
-    uses: jasondavindev/open-idp/.github/workflows/build.yaml@main
+    uses: jasondavindev/open-idp/.github/workflows/build.yaml@fix/build-output
     needs: test
     secrets:
       CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
