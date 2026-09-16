@@ -18,7 +18,7 @@ jobs:
 
   build:
     if: github.ref_name == 'main'
-    uses: jasondavindev/open-idp/.github/workflows/build.yaml@fix/build-output
+    uses: jasondavindev/open-idp/.github/workflows/build.yaml@main
     needs: test
     secrets:
       CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
@@ -30,5 +30,7 @@ jobs:
     uses: jasondavindev/open-idp/.github/workflows/deploy.yaml@main
     with:
       image_tag: ${{ needs.build.outputs.image_tag }}
+    secrets:
+      pat_write_token: ${{ secrets.PAT_WRITE_TOKEN }}
     permissions:
       contents: write
